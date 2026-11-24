@@ -4,12 +4,25 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { apiFetch, BLOOD_GROUPS, OCCUPATIONS } from '@/lib/api';
+import { useAuth } from '@/components/AuthContext';
 import LocationSelects, { inputClass } from '@/components/LocationSelects';
 
 export default function DonorFormPage() {
+  const { user, ready } = useAuth();
+  const router = useRouter();
+
+  // Login first: a guest who opens this page goes to Login, and comes
+  // back here after logging in (?next=/donor-form).
+  useEffect(() => {
+    if (ready && !user) {
+      router.replace('/login?next=/donor-form');
+    }
+  }, [ready, user, router]);
+
   const [form, setForm] = useState({
     fullName: '', email: '', password: '', phone: '',
     occupation: '', division: '', district: '', upazila: '', bloodGroup: '',
@@ -18,6 +31,18 @@ export default function DonorFormPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // While the login check runs (or while redirecting), show nothing yet.
+  // (All hooks above run first, so the hook order never changes.)
+  if (!ready || !user) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-10">
+        <p className="text-gray-600">
+          Login page-e niye jawa hocche... <Link href="/login?next=/donor-form" className="text-brand-600 font-medium">Login</Link>
+        </p>
+      </div>
+    );
+  }
 
   function set(field, value) {
     setForm((f) => ({ ...f, [field]: value }));

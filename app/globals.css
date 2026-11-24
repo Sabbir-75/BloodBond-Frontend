@@ -6,11 +6,13 @@
 body {
   background-color: #ffffff;
   color: #1f2937;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins), 'Poppins', ui-sans-serif, system-ui, sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
+  /* Sticky navbar offset, so anchor jumps never hide under the navbar. */
+  scroll-padding-top: 4.5rem;
 }
 
 a {
@@ -52,11 +54,12 @@ a:not(.keep-hover):hover {
 .animate-pulse-ring { animation: pulseRing 2s ease-out infinite; }
 .animate-hero-zoom { animation: heroZoom 1.2s ease both; }
 
-/* Scroll reveal: hidden until the element scrolls into view (see components/Reveal.js). */
+/* Scroll reveal: hidden until the element scrolls into view (see components/Reveal.js).
+   1s transition = slow, smooth feel. */
 .reveal {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition: opacity 1s ease, transform 1s ease;
 }
 .reveal-visible {
   opacity: 1;
@@ -79,13 +82,13 @@ a:not(.keep-hover):hover {
   animation: accordionOpen 0.3s ease both;
 }
 
-/* Card hover lift (service + donor cards). */
+/* Card hover lift (service + donor cards) + a subtle red shadow. */
 .card-lift {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 .card-lift:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 12px 28px rgba(220, 38, 38, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 /* Slight 3D tilt for the hero photo card. */

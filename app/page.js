@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { apiFetch } from '@/lib/api';
+import { useAuth } from '@/components/AuthContext';
 import DonorCard from '@/components/DonorCard';
 import Reveal from '@/components/Reveal';
 import StatCounter from '@/components/StatCounter';
@@ -40,6 +41,11 @@ export default function HomePage() {
   const [error, setError] = useState('');
   const [openFaq, setOpenFaq] = useState(0);
 
+  // Become a Donor: guests go to Login first, then come back here
+  // (?next=/donor-form). Logged-in users go straight to the form.
+  const { user } = useAuth();
+  const donorHref = user ? '/donor-form' : '/login?next=/donor-form';
+
   // Load stock + a few donors from the backend (real data, no fake numbers).
   useEffect(() => {
     async function load() {
@@ -63,10 +69,21 @@ export default function HomePage() {
 
   return (
     <div>
-      {/* Hero: real blood-donation photo + headline + CTAs + heartbeat animation */}
-      <section className="bg-brand-700 text-white overflow-hidden">
-        <div className="max-w-6xl mx-auto px-4 py-14 grid gap-10 md:grid-cols-2 items-center">
-          <div className="animate-fade-up">
+      {/* Hero: the blood-donation photo covers the WHOLE hero (full width +
+          full height), with a light black overlay so the text and buttons
+          stay easy to read. */}
+      <section className="relative overflow-hidden bg-brand-700 text-white">
+        <Image
+          src={HERO_PHOTO}
+          alt="A nurse taking blood from a donor at a blood donation camp"
+          fill
+          sizes="100vw"
+          className="object-cover animate-hero-zoom"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/55 to-black/35" />
+        <div className="relative z-10 max-w-6xl mx-auto px-4 py-20 md:py-24">
+          <div className="max-w-2xl animate-fade-up">
             <p className="inline-flex items-center gap-2 bg-white/10 border border-white/30 rounded-full px-3 py-1 text-sm text-red-100">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse-ring" />
               BloodBond — Blood Donation Management System
@@ -74,7 +91,7 @@ export default function HomePage() {
             <h1 className="mt-5 text-4xl md:text-5xl font-bold leading-tight">
               Donate Blood, Keep the World Beating
             </h1>
-            <p className="mt-4 text-lg text-red-100">
+            <p className="mt-4 text-lg text-white/90">
               Find verified blood donors near you, request blood in minutes,
               and help hospitals save lives — all in one place, free for everyone.
             </p>
@@ -82,31 +99,19 @@ export default function HomePage() {
               <Link href="/donors" className="keep-hover px-6 py-3 bg-white text-brand-600 font-bold rounded-md hover:bg-red-100">
                 Find a Donor
               </Link>
-              <Link href="/donor-form" className="keep-hover px-6 py-3 bg-brand-500 text-white font-bold rounded-md border border-white hover:bg-brand-600">
+              <Link href={donorHref} className="keep-hover px-6 py-3 bg-brand-500 text-white font-bold rounded-md border border-white hover:bg-brand-600">
                 Become a Donor
               </Link>
             </div>
-            <p className="mt-6 text-red-100 text-sm">
+            <p className="mt-6 text-white/90 text-sm">
               8 blood groups • 64 districts • Free for everyone
             </p>
-            <p className="mt-1 text-red-100 text-sm">
+            <p className="mt-1 text-white/90 text-sm">
               {loading ? 'Loading stock...' : totalUnits + ' bags of blood available right now'}
             </p>
-          </div>
-          <div className="animate-fade-up">
-            <div className="tilt-3d relative rounded-2xl overflow-hidden shadow-2xl bg-white">
-              <Image
-                src={HERO_PHOTO}
-                alt="A nurse taking blood from a donor at a blood donation camp"
-                width={1600}
-                height={1067}
-                className="w-full h-auto animate-hero-zoom"
-                priority
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-brand-700/90 text-white px-4 py-3 flex items-center gap-3">
-                <LottiePlayer animationData={heartbeatData} className="w-16 h-10 shrink-0" />
-                <p className="text-sm">Every 2 seconds, someone needs blood. Your donation can save a life today.</p>
-              </div>
+            <div className="mt-6 flex items-center gap-3">
+              <LottiePlayer animationData={heartbeatData} className="w-16 h-10 shrink-0" />
+              <p className="text-sm text-white/90">Every 2 seconds, someone needs blood. Your donation can save a life today.</p>
             </div>
           </div>
         </div>
@@ -357,7 +362,7 @@ export default function HomePage() {
                   <p className="mt-2 text-sm text-gray-600 flex justify-start items-center gap-3 ml-0.5"><MdOutlineMoreTime size={20} fill='red' /> {d.time}</p>
                   <p className="mt-1.5 text-sm text-gray-600 flex justify-start items-center gap-3"><MdAddLocation size={22} fill='red' /> {d.venue}</p>
                 </div>
-                <Link href="/donor-form" className="keep-hover inline-block mt-4 px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600">
+                <Link href={donorHref} className="keep-hover inline-block mt-4 px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600">
                   Join as Donor
                 </Link>
               </div>
@@ -430,7 +435,7 @@ export default function HomePage() {
 
               <div className="mt-6 flex flex-wrap justify-center gap-3">
                 <Link
-                  href="/donor-form"
+                  href={donorHref}
                   className="keep-hover px-6 py-3 bg-white text-brand-600 font-bold rounded-md hover:bg-red-100 transition-colors"
                 >
                   Become a Donor

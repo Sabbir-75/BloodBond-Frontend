@@ -5,6 +5,16 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { AuthProvider } from '@/components/AuthContext';
 import { FAVICON_DATA_URI } from '@/lib/logoData';
+import { Poppins } from 'next/font/google';
+
+// Poppins: the closest free Google Font to Google Sans (Google Sans itself
+// is Google's private font and cannot be used on a website).
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-poppins',
+  display: 'swap',
+});
 
 export const metadata = {
   title: 'BloodBond - Blood Donation Management System',
@@ -16,7 +26,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={poppins.variable}>
       <body>
         <AuthProvider>
           <Navbar />

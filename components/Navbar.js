@@ -65,7 +65,7 @@ export default function Navbar() {
                 <Link href="/login" className="keep-hover px-4 py-2 text-sm font-medium text-brand-600 border border-brand-500 rounded-md hover:bg-brand-500 hover:text-white">
                   Login
                 </Link>
-                <Link href="/donor-form" className="keep-hover px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600">
+                <Link href={user ? '/donor-form' : '/login?next=/donor-form'} className="keep-hover px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600">
                   Become a Donor
                 </Link>
               </>

@@ -6,17 +6,25 @@
 
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { apiFetch } from '@/lib/api';
 import { useAuth } from '@/components/AuthContext';
 import Logo from '@/components/Logo';
 import LottiePlayer from '@/components/LottiePlayer';
 import heartbeatData from '@/public/lottie/heartbeat.json';
 
-export default function LoginPage() {
+// Only a same-site path is a safe place to send the user after login.
+function safeNext(value) {
+  return value && value.startsWith('/') && !value.startsWith('//') ? value : null;
+}
+
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  // ?next=/donor-form : after login, go back to the page the user wanted.
+  const next = safeNext(searchParams.get('next'));
   const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,7 +41,12 @@ export default function LoginPage() {
         body: { email, password },
       });
       login(data.token, data.user);
-      // Go to the right page for this role.
+      // If the user came here to reach another page, send them back there.
+      if (next) {
+        router.push(next);
+        return;
+      }
+      // Otherwise go to the right page for this role.
       if (data.user.role === 'Admin') router.push('/admin');
       else if (data.user.role === 'Donor') router.push('/profile');
       else router.push('/request');
@@ -50,21 +63,23 @@ export default function LoginPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
       <div className="grid md:grid-cols-2 gap-0 bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm animate-fade-up">
-        {/* Left: branding panel (hidden on small screens) */}
-        <div className="hidden md:flex flex-col justify-between bg-brand-600 text-white p-10">
+        {/* Left: branding panel (hidden on small screens).
+            Light red background (brand-100) so the logo stays fully visible —
+            on the old dark-red panel the red "Bond" word blended into the bg. */}
+        <div className="hidden md:flex flex-col justify-between bg-gradient-to-b from-brand-100 to-red-50 p-10">
           <div>
-            <Logo light />
-            <h2 className="mt-10 text-3xl font-bold leading-snug">
+            <Logo />
+            <h2 className="mt-10 text-3xl font-bold leading-snug text-gray-900">
               Donate Blood,<br />Keep the World Beating
             </h2>
-            <p className="mt-3 text-red-100">
+            <p className="mt-3 text-gray-700">
               One bag of blood can save up to three lives.
               Login to find donors, request blood, or manage the system.
             </p>
           </div>
-          <div className="mt-8 bg-white/10 rounded-lg p-4">
+          <div className="mt-8 bg-white/80 rounded-lg p-4">
             <LottiePlayer animationData={heartbeatData} className="w-full max-w-[280px] mx-auto" />
-            <p className="text-center text-sm text-red-100">Every heartbeat matters.</p>
+            <p className="text-center text-sm text-brand-700 font-medium">Every heartbeat matters.</p>
           </div>
         </div>
 
@@ -92,7 +107,7 @@ export default function LoginPage() {
 
           <p className="mt-4 text-center text-sm text-gray-600">
             No account?{' '}
-            <Link href="/register" className="text-brand-600 font-medium">Register here</Link>
+            <Link href={next ? '/register?next=' + encodeURIComponent(next) : '/register'} className="text-brand-600 font-medium">Register here</Link>
             {' '}or{' '}
             <Link href="/donor-form" className="text-brand-600 font-medium">become a donor</Link>.
           </p>
@@ -102,5 +117,14 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// useSearchParams needs a Suspense boundary, or the build fails on prerender.
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="max-w-5xl mx-auto px-4 py-10"><p className="text-gray-600">Loading...</p></div>}>
+      <LoginForm />
+    </Suspense>
   );
 }
