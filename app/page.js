@@ -16,6 +16,8 @@ import { TESTIMONIALS, DRIVES, FAQS } from '@/lib/content';
 import heartbeatData from '@/public/lottie/heartbeat.json';
 import heartMedicalData from '@/public/lottie/heart-medical.json';
 import bloodDropData from '@/public/lottie/blood-drop.json';
+import { MdAddLocation, MdOutlineMoreTime } from 'react-icons/md';
+import { GiEternalLove } from 'react-icons/gi';
 
 // Real photos (verified to load with HTTP 200, image/jpeg).
 const HERO_PHOTO =
@@ -279,25 +281,18 @@ export default function HomePage() {
           <Reveal delay={100}>
             <div>
               <p className="text-sm font-bold text-brand-600">About BloodBond</p>
-              <h2 className="mt-2 text-3xl font-bold text-gray-900">The Life You Save Could Be Someone You Love</h2>
+              <h2 className="mt-2 text-3xl font-bold text-gray-900">The Life You Save Could Be Yours.</h2>
               <p className="mt-4 text-gray-700">
-                BloodBond connects blood donors with the people who need blood most —
-                patients in hospitals, accident victims, mothers after childbirth,
-                and children with blood diseases — across all 64 districts of Bangladesh.
+                BloodBond connects blood donors with patients, accident victims, mothers, and children across all 64 districts of Bangladesh. We help patients and hospitals find the right blood group quickly while promoting safe donation through the 90-day rule. Blood donation is always free — no money involved.
               </p>
-              <p className="mt-3 text-gray-700">
-                We help patients and hospitals find the right blood group fast,
-                and we help donors give safely with the 90-day rule.
-                No money is involved — blood donation is always free.
-              </p>
-              <div className="mt-6 space-y-3">
+              <div className="mt-6 grid grid-cols-2 gap-2">
                 {[
-                  ['♥ Your Blood, Their Second Chance', 'One donation can save up to 3 lives.'],
-                  ['♥ Urgent Need, Every Day', 'Every 2 seconds, someone needs blood.'],
-                  ['♥ Save Lives in Minutes', 'Search, call the donor, and help today.'],
+                  ['Your Blood, Their Second Chance', 'One donation can save up to 3 lives.'],
+                  ['Urgent Need, Every Day', 'Every 2 seconds, someone needs blood.'],
+                  ['Save Lives in Minutes', 'Search, call the donor, and help today.'],
                 ].map(([title, text]) => (
                   <div key={title} className="flex gap-3">
-                    <span className="text-brand-600 text-xl">♥</span>
+                    <span className="text-brand-600 text-xl mt-0.5"><GiEternalLove size={22} fill='red' /></span>
                     <div>
                       <p className="font-bold text-gray-900">{title}</p>
                       <p className="text-sm text-gray-600">{text}</p>
@@ -356,10 +351,12 @@ export default function HomePage() {
           {DRIVES.map((d, i) => (
             <Reveal key={d.title} delay={i * 100}>
               <div className="bg-white border border-gray-200 rounded-lg p-6 h-full card-lift">
-                <p className="text-sm font-bold text-brand-600">{d.date}</p>
-                <h3 className="mt-2 text-lg font-bold text-gray-900">{d.title}</h3>
-                <p className="mt-2 text-sm text-gray-600">🕘 {d.time}</p>
-                <p className="mt-1 text-sm text-gray-600">📍 {d.venue}</p>
+                <div>
+                  <p className="text-sm font-bold text-brand-600">{d.date}</p>
+                  <h3 className="mt-2 text-lg font-bold text-gray-900">{d.title}</h3>
+                  <p className="mt-2 text-sm text-gray-600 flex justify-start items-center gap-3 ml-0.5"><MdOutlineMoreTime size={20} fill='red' /> {d.time}</p>
+                  <p className="mt-1.5 text-sm text-gray-600 flex justify-start items-center gap-3"><MdAddLocation size={22} fill='red' /> {d.venue}</p>
+                </div>
                 <Link href="/donor-form" className="keep-hover inline-block mt-4 px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600">
                   Join as Donor
                 </Link>
@@ -385,7 +382,7 @@ export default function HomePage() {
                     <button
                       type="button"
                       onClick={() => setOpenFaq(open ? -1 : i)}
-                      className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left font-medium text-gray-900 hover:text-brand-600"
+                      className={`w-full flex items-center justify-between gap-4 px-5 py-4 text-left font-medium text-gray-900 hover:text-brand-600`}
                       aria-expanded={open}
                     >
                       {f.q}
@@ -393,7 +390,7 @@ export default function HomePage() {
                     </button>
                     <div className={'accordion-body ' + (open ? 'open' : '')}>
                       <div className="accordion-inner">
-                        <p className={'px-5 pb-4 text-sm text-gray-600 ' + (open ? 'accordion-open-anim' : '')}>{f.a}</p>
+                        <p className={'px-5 py-4 text-sm text-white bg-brand-600 ' + (open ? 'accordion-open-anim' : '')}>{f.a}</p>
                       </div>
                     </div>
                   </div>
@@ -405,25 +402,55 @@ export default function HomePage() {
       </section>
 
       {/* Red CTA banner */}
-      <section className="max-w-6xl mx-auto px-4 py-12">
-        <Reveal>
-          <div className="bg-brand-600 rounded-2xl px-6 py-10 text-center text-white relative overflow-hidden">
-            <LottiePlayer animationData={bloodDropData} className="w-20 h-20 mx-auto" />
-            <h2 className="mt-4 text-3xl font-bold">Every drop matters! Join us at our next blood drive &amp; Be a Lifesaver!</h2>
-            <p className="mt-3 text-red-100">
-              Register as a donor today — it takes only a few minutes, and your blood can save up to 3 lives.
-            </p>
-            <div className="mt-6 flex flex-wrap justify-center gap-3">
-              <Link href="/donor-form" className="keep-hover px-6 py-3 bg-white text-brand-600 font-bold rounded-md hover:bg-red-100">
-                Become a Donor
-              </Link>
-              <Link href="/donors" className="keep-hover px-6 py-3 bg-brand-700 text-white font-bold rounded-md border border-white hover:bg-brand-500">
-                Find Donors
-              </Link>
-            </div>
-          </div>
-        </Reveal>
-      </section>
+
+
+<section className="max-w-6xl mx-auto px-4 py-12">
+  <Reveal>
+    <div className="relative rounded-2xl overflow-hidden px-6 py-16 text-center text-white">
+
+      {/* Fixed Background Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('https://i.ibb.co.com/39cMmt7L/image.png')",
+          backgroundAttachment: "fixed",
+        }}
+      ></div>
+
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 bg-black/60"></div>
+
+      {/* Content */}
+      <div className="relative z-10">
+        <h2 className="mt-4 text-3xl font-bold max-w-[600px] mx-auto">
+          Every drop matters! Join us at our next blood drive &amp; Be a Lifesaver!
+        </h2>
+
+        <p className="mt-3 text-red-100">
+          Register as a donor today — it takes only a few minutes, and your blood can save up to 3 lives.
+        </p>
+
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <Link
+            href="/donor-form"
+            className="keep-hover px-6 py-3 bg-white text-brand-600 font-bold rounded-md hover:bg-red-100 transition-colors"
+          >
+            Become a Donor
+          </Link>
+
+          <Link
+            href="/donors"
+            className="keep-hover px-6 py-3 bg-brand-700 text-white font-bold rounded-md border border-white hover:bg-brand-500 transition-colors"
+          >
+            Find Donors
+          </Link>
+        </div>
+      </div>
+    </div>
+  </Reveal>
+</section>
+
+
     </div>
   );
 }
