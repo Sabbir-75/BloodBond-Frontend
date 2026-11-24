@@ -30,6 +30,10 @@ export default function AdminBloodBanksPage() {
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState(emptyForm);
   const [editStock, setEditStock] = useState({});
+  // editStockSaved: prottek group-er SAVE KORA (ashol) bag count.
+  // Save button sudhu tokhon-i enable hobe jokhon input-er number
+  // save kora number theke alada hobe (barle ba komle).
+  const [editStockSaved, setEditStockSaved] = useState({});
   const [editSaving, setEditSaving] = useState(false);
 
   useEffect(() => {
@@ -126,12 +130,15 @@ export default function AdminBloodBanksPage() {
     for (const g of BLOOD_GROUPS) stock[g] = 0;
     for (const s of bank.stock) stock[s.bloodGroup] = s.units;
     setEditStock(stock);
+    // Shurute input ar save kora man ek — tai shob Save button disable thakbe.
+    setEditStockSaved({ ...stock });
   }
 
   function cancelEdit() {
     setEditingId(null);
     setEditForm(emptyForm);
     setEditStock({});
+    setEditStockSaved({});
   }
 
   async function saveInfo(bankId) {
@@ -163,6 +170,9 @@ export default function AdminBloodBanksPage() {
         body: { bloodGroup: group, units: Number(editStock[group]) },
       });
       setMessage(group + ' stock update hoyeche.');
+      // Save hoye geche — ekhon input ar save kora man abar ek,
+      // tai ei group-er Save button abar disable hoye jabe.
+      setEditStockSaved((s) => ({ ...s, [group]: Number(editStock[group]) }));
       loadBanks();
     } catch (err) {
       setError(err.message);
@@ -314,7 +324,7 @@ export default function AdminBloodBanksPage() {
                           onChange={(e) => setEditStock((s) => ({ ...s, [g]: e.target.value }))}
                           className={inputClass + ' min-w-0 flex-1'}
                         />
-                        <button onClick={() => saveStock(b.bankId, g)} disabled={editSaving} className="px-3 py-2 text-sm font-medium text-brand-600 border border-brand-500 rounded-md hover:bg-brand-500 hover:text-white disabled:opacity-50">
+                        <button onClick={() => saveStock(b.bankId, g)} disabled={editSaving || Number(editStock[g] ?? 0) === Number(editStockSaved[g] ?? 0)} className="px-3 py-2 text-sm font-medium text-brand-600 border border-brand-500 rounded-md hover:bg-brand-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed">
                           Save
                         </button>
                       </div>
