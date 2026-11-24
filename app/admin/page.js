@@ -183,7 +183,7 @@ export default function AdminPage() {
                 <button onClick={() => approveRequest(r.RequestID)} className="px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600">
                   Approve
                 </button>
-                <button onClick={() => fulfilRequest(r.RequestID)} className="px-4 py-2 text-sm font-medium text-brand-600 border border-brand-500 rounded-md hover:bg-brand-50">
+                <button onClick={() => fulfilRequest(r.RequestID)} className="px-4 py-2 text-sm font-medium text-brand-600 border border-brand-500 rounded-md hover:bg-brand-500 hover:text-white">
                   Give from Stock
                 </button>
               </div>

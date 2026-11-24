@@ -6,6 +6,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from './AuthContext';
+import Logo from './Logo';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -28,12 +29,9 @@ export default function Navbar() {
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Logo / name */}
-          <Link href="/" className="flex items-center gap-2">
-            <span className="w-9 h-9 rounded-full bg-brand-500 text-white flex items-center justify-center text-xl font-bold">
-              ♥
-            </span>
-            <span className="text-xl font-bold text-brand-600">BloodBond</span>
+          {/* Logo: icon + BloodBond wordmark + tagline */}
+          <Link href="/" className="keep-hover" aria-label="BloodBond home">
+            <Logo />
           </Link>
 
           {/* Page links */}
@@ -41,6 +39,7 @@ export default function Navbar() {
             <Link href="/" className={linkClass('/')}>Home</Link>
             <Link href="/donors" className={linkClass('/donors')}>Available Donors</Link>
             <Link href="/services" className={linkClass('/services')}>Services</Link>
+            <Link href="/about" className={linkClass('/about')}>About</Link>
             <Link href="/contact" className={linkClass('/contact')}>Contact Us</Link>
             {user && user.role === 'Donor' && (
               <Link href="/profile" className={linkClass('/profile')}>My Profile</Link>
@@ -57,10 +56,10 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             {!user && (
               <>
-                <Link href="/login" className="px-4 py-2 text-sm font-medium text-brand-600 border border-brand-500 rounded-md hover:bg-brand-50">
+                <Link href="/login" className="keep-hover px-4 py-2 text-sm font-medium text-brand-600 border border-brand-500 rounded-md hover:bg-brand-500 hover:text-white">
                   Login
                 </Link>
-                <Link href="/donor-form" className="px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600">
+                <Link href="/donor-form" className="keep-hover px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600">
                   Become a Donor
                 </Link>
               </>
@@ -86,6 +85,7 @@ export default function Navbar() {
           <Link href="/" className={linkClass('/')}>Home</Link>
           <Link href="/donors" className={linkClass('/donors')}>Available Donors</Link>
           <Link href="/services" className={linkClass('/services')}>Services</Link>
+          <Link href="/about" className={linkClass('/about')}>About</Link>
           <Link href="/contact" className={linkClass('/contact')}>Contact Us</Link>
           {user && user.role === 'Donor' && (
             <Link href="/profile" className={linkClass('/profile')}>My Profile</Link>

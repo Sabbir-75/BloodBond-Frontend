@@ -51,7 +51,7 @@ export default function RegisterPage() {
         <div className="mt-6 bg-green-50 border border-green-200 text-green-800 rounded-md p-5">
           <p className="font-bold">Success!</p>
           <p className="mt-1 text-sm">{success}</p>
-          <Link href="/login" className="inline-block mt-4 px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600">
+          <Link href="/login" className="keep-hover inline-block mt-4 px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600">
             Go to Login
           </Link>
         </div>

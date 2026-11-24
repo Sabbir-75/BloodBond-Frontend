@@ -8,6 +8,8 @@ import { AuthProvider } from '@/components/AuthContext';
 export const metadata = {
   title: 'BloodBond - Blood Donation Management System',
   description: 'Find blood donors, request blood, and manage blood stock in one place.',
+  // Favicon: the white rounded-square BloodBond mark (public/favicon.png).
+  icons: { icon: '/favicon.png' },
 };
 
 export default function RootLayout({ children }) {

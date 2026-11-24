@@ -60,6 +60,7 @@ export default function DonorCard({ donor }) {
   }
 
   // Prefilled email request (mailto): blood group, bags, address - ready to Send.
+  // Only built when contact is loaded (never a fake '#' link).
   const mailSubject = 'Blood Needed: ' + donor.bloodGroup;
   const mailBody =
     'Hello ' + donor.fullName + ',\n\n' +
@@ -70,10 +71,10 @@ export default function DonorCard({ donor }) {
       ? 'mailto:' + contact.Email +
         '?subject=' + encodeURIComponent(mailSubject) +
         '&body=' + encodeURIComponent(mailBody)
-      : '#';
+      : null;
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-5 flex flex-col">
+    <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-5 flex flex-col card-lift">
       {/* Blood group - big and red */}
       <div className="flex items-start justify-between">
         <span className="w-16 h-16 rounded-full bg-brand-500 text-white flex items-center justify-center text-2xl font-bold">
@@ -98,16 +99,18 @@ export default function DonorCard({ donor }) {
         <div className="mt-4 border-t border-gray-200 pt-4 space-y-2">
           <a
             href={'tel:' + contact.Phone}
-            className="block w-full text-center px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600"
+            className="keep-hover block w-full text-center px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600"
           >
             Call {contact.Phone || 'Donor'}
           </a>
-          <a
-            href={mailtoLink}
-            className="block w-full text-center px-4 py-2 text-sm font-medium text-brand-600 border border-brand-500 rounded-md hover:bg-brand-50"
-          >
-            Email Donor
-          </a>
+          {mailtoLink && (
+            <a
+              href={mailtoLink}
+              className="keep-hover block w-full text-center px-4 py-2 text-sm font-medium text-brand-600 border border-brand-500 rounded-md hover:bg-brand-500 hover:text-white"
+            >
+              Email Donor
+            </a>
+          )}
           <p className="text-xs text-gray-500">
             Email opens ready to send: blood group, bags and address included.
           </p>
