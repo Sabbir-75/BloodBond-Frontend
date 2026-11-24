@@ -53,8 +53,17 @@ export default function Navbar() {
             {user && user.role === 'Acceptor' && (
               <Link href="/request" className={linkClass('/request')}>Request Blood</Link>
             )}
+            {user && (
+              <Link href="/bloodbanks" className={linkClass('/bloodbanks')}>Blood Banks</Link>
+            )}
             {user && user.role === 'Admin' && (
               <Link href="/admin" className={linkClass('/admin')}>Admin Dashboard</Link>
+            )}
+            {user && user.role === 'Admin' && (
+              <Link href="/admin/donors" className={linkClass('/admin/donors')}>All Donors</Link>
+            )}
+            {user && user.role === 'Admin' && (
+              <Link href="/admin/bloodbanks" className={linkClass('/admin/bloodbanks')}>Manage Banks</Link>
             )}
           </nav>
 
@@ -99,8 +108,17 @@ export default function Navbar() {
           {user && user.role === 'Acceptor' && (
             <Link href="/request" className={linkClass('/request')}>Request Blood</Link>
           )}
+          {user && (
+            <Link href="/bloodbanks" className={linkClass('/bloodbanks')}>Blood Banks</Link>
+          )}
           {user && user.role === 'Admin' && (
             <Link href="/admin" className={linkClass('/admin')}>Admin Dashboard</Link>
+          )}
+          {user && user.role === 'Admin' && (
+            <Link href="/admin/donors" className={linkClass('/admin/donors')}>All Donors</Link>
+          )}
+          {user && user.role === 'Admin' && (
+            <Link href="/admin/bloodbanks" className={linkClass('/admin/bloodbanks')}>Manage Banks</Link>
           )}
         </nav>
       </div>

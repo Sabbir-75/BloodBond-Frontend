@@ -1,16 +1,15 @@
 // BloodBond Frontend - Admin Dashboard (Admin login only)
 // Dashboard counts, pending users (approve), pending requests (approve + give from stock),
-// and blood stock update.
+// and blood stock (donation stock + blood bank stock miliye).
+// Stock update form ar nai - stock bodlay sudhu donation, issue, ar blood bank entry diye.
 
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { apiFetch, BLOOD_GROUPS } from '@/lib/api';
+import { apiFetch } from '@/lib/api';
 import { useAuth } from '@/components/AuthContext';
-
-const inputClass =
-  'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500';
 
 export default function AdminPage() {
   const { user, ready } = useAuth();
@@ -22,8 +21,6 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
-  const [stockGroup, setStockGroup] = useState('A+');
-  const [stockChange, setStockChange] = useState(1);
 
   useEffect(() => {
     if (ready && !user) router.push('/login');
@@ -91,22 +88,6 @@ export default function AdminPage() {
     }
   }
 
-  async function updateStock(e) {
-    e.preventDefault();
-    setMessage('');
-    setError('');
-    try {
-      const data = await apiFetch('/stock', {
-        method: 'PUT',
-        body: { bloodGroup: stockGroup, unitsChange: Number(stockChange) },
-      });
-      setMessage('Stock update hoyeche. ' + data.bloodGroup + ' ekhon ' + data.newUnits + ' bags.');
-      loadAll();
-    } catch (err) {
-      setError(err.message);
-    }
-  }
-
   if (!ready || loading) return <p className="max-w-6xl mx-auto px-4 py-10 text-gray-600">Loading...</p>;
   if (!user) return null;
 
@@ -123,6 +104,15 @@ export default function AdminPage() {
     <div className="max-w-6xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
       <p className="text-gray-600 mt-1">Welcome, {user.fullName}. Approve users and requests, manage stock.</p>
+
+      <div className="mt-4 flex flex-wrap gap-3">
+        <Link href="/admin/donors" className="keep-hover px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600">
+          All Donors
+        </Link>
+        <Link href="/admin/bloodbanks" className="keep-hover px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600">
+          Manage Blood Banks
+        </Link>
+      </div>
 
       {message && <p className="mt-4 text-sm text-green-700 bg-green-50 border border-green-200 rounded-md p-3">{message}</p>}
       {error && <p className="mt-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md p-3">{error}</p>}
@@ -192,7 +182,7 @@ export default function AdminPage() {
         </div>
       </section>
 
-      {/* Stock */}
+      {/* Stock - mot stock: donation stock + blood bank stock */}
       <section className="mt-10">
         <h2 className="text-xl font-bold text-gray-900">Blood Stock</h2>
         <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -203,23 +193,9 @@ export default function AdminPage() {
             </div>
           ))}
         </div>
-        <form onSubmit={updateStock} className="mt-4 bg-white border border-gray-200 rounded-lg p-5 flex flex-wrap items-end gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Blood Group</label>
-            <select value={stockGroup} onChange={(e) => setStockGroup(e.target.value)} className={inputClass}>
-              {BLOOD_GROUPS.map((g) => (
-                <option key={g} value={g}>{g}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Units (+ add / − remove)</label>
-            <input type="number" value={stockChange} onChange={(e) => setStockChange(e.target.value)} className={inputClass} />
-          </div>
-          <button type="submit" className="px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600">
-            Update Stock
-          </button>
-        </form>
+        <p className="mt-3 text-sm text-gray-600">
+          Stock bodlate <Link href="/admin/bloodbanks" className="text-brand-600 font-medium">Manage Blood Banks</Link> page-e jao.
+        </p>
       </section>
     </div>
   );
