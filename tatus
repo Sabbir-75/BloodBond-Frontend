@@ -1,0 +1,10 @@
+* [33mbe50655[m[33m ([m[1;32mmy-edits[m[33m)[m about and navber update
+* [33m34bf841[m services,about,navber,login page update
+* [33mc308392[m services,about,navber,login page update
+[31m|[m * [33meb9882a[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m User's own edits: navbar !text-white hover fix, CTA banners with photo background, react-icons
+[31m|[m[31m/[m  
+* [33m22e06b9[m Fix navbar: active menu item keeps white text on hover
+[32m|[m * [33md00ac9d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m services,about,navber,login page update
+[32m|[m[32m/[m  
+* [33m831e7ec[m Fix logo not showing: embed logo + favicon as data URIs (PNG files cannot be pushed)
+* [33m82c1977[m BloodBond redesign: new hero, login page, logo + favicon, service detail pages, about page, animations + Lottie

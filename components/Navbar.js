@@ -13,8 +13,6 @@ export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Active page link gets the red background.
-
 
   const linkClass = (href) => {
     const isActive = pathname === href;
