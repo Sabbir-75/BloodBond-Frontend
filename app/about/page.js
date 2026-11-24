@@ -8,6 +8,7 @@ import StatCounter from '@/components/StatCounter';
 import LottiePlayer from '@/components/LottiePlayer';
 import { TESTIMONIALS } from '@/lib/content';
 import heartbeatData from '@/public/lottie/heartbeat.json';
+import { MdBloodtype } from 'react-icons/md';
 
 // Real photos (verified to load with HTTP 200, image/jpeg).
 const BANNER_PHOTO =
@@ -132,7 +133,7 @@ export default function AboutPage() {
                   ['Protect the donor', 'The 90-day rule makes a donor eligible again automatically — never too soon.'],
                 ].map(([title, text]) => (
                   <div key={title} className="flex gap-3">
-                    <span className="text-brand-600 text-xl">♥</span>
+                    <span className="text-brand-600 text-xl"><MdBloodtype size={23} fill='red' /></span>
                     <div>
                       <p className="font-bold text-gray-900">{title}</p>
                       <p className="text-sm text-gray-600">{text}</p>
@@ -204,22 +205,51 @@ export default function AboutPage() {
       {/* CTA banner */}
       <section className="max-w-6xl mx-auto px-4 pb-12">
         <Reveal>
-          <div className="bg-brand-600 rounded-2xl px-6 py-10 text-center text-white">
-            <h2 className="text-3xl font-bold">Every drop matters! Join us &amp; Be a Lifesaver!</h2>
-            <p className="mt-3 text-red-100">
-              Register as a donor today — it takes only a few minutes.
-            </p>
-            <div className="mt-6 flex flex-wrap justify-center gap-3">
-              <Link href="/donor-form" className="keep-hover px-6 py-3 bg-white text-brand-600 font-bold rounded-md hover:bg-red-100">
-                Become a Donor
-              </Link>
-              <Link href="/donors" className="keep-hover px-6 py-3 bg-brand-700 text-white font-bold rounded-md border border-white hover:bg-brand-500">
-                Find Donors
-              </Link>
+          <div className="relative rounded-2xl overflow-hidden px-6 py-10 text-center text-white">
+
+            {/* Background Image */}
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{
+                backgroundImage: "url('https://i.ibb.co.com/39cMmt7L/image.png')",
+                backgroundAttachment: "fixed",
+              }}
+            ></div>
+
+            {/* Dark Overlay */}
+            <div className="absolute inset-0 bg-black/60"></div>
+
+            {/* Content */}
+            <div className="relative z-10">
+              <h2 className="text-3xl font-bold">
+                Every drop matters! Join us &amp; Be a Lifesaver!
+              </h2>
+
+              <p className="mt-3 text-red-100">
+                Register as a donor today — it takes only a few minutes.
+              </p>
+
+              <div className="mt-6 flex flex-wrap justify-center gap-3">
+                <Link
+                  href="/donor-form"
+                  className="keep-hover px-6 py-3 bg-white text-brand-600 font-bold rounded-md hover:bg-red-100 transition-colors"
+                >
+                  Become a Donor
+                </Link>
+
+                <Link
+                  href="/donors"
+                  className="keep-hover px-6 py-3 bg-brand-700 text-white font-bold rounded-md border border-white hover:bg-brand-500 transition-colors"
+                >
+                  Find Donors
+                </Link>
+              </div>
             </div>
+
           </div>
         </Reveal>
       </section>
+
     </div>
   );
 }

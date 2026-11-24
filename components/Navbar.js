@@ -13,15 +13,18 @@ export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Active page link: red background + white text — and hover keeps it that way
-  // (hover:bg-brand-600 + hover:text-white), so the text never goes dark/red
-  // on the red background. keep-hover stops the global a:hover rule in
-  // globals.css from changing the link colour.
-  const linkClass = (href) =>
-    'px-3 py-2 rounded-md text-sm font-medium keep-hover ' +
-    (pathname === href
-      ? 'bg-brand-500 text-white hover:bg-brand-600 hover:text-white'
-      : 'text-gray-700 hover:text-brand-600 hover:bg-brand-50');
+
+  const linkClass = (href) => {
+    const isActive = pathname === href;
+
+    return (
+      'px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ' +
+      (isActive
+        ? 'bg-brand-500 !text-white hover:!text-white hover:bg-brand-500'
+        : 'text-gray-700 hover:bg-brand-100 hover:text-gray-900')
+    );
+  };
+
 
   function handleLogout() {
     logout();

@@ -19,7 +19,7 @@ export default function ServicesPage() {
         {SERVICES.map((s) => (
           <Reveal key={s.slug}>
             <div className="bg-white border border-gray-200 rounded-lg p-6 flex flex-col h-full card-lift">
-              <p className="text-3xl">{s.icon}</p>
+              <p className="text-3xl text-brand-500">{s.icon}</p>
               <h2 className="mt-3 text-lg font-bold text-gray-900">{s.title}</h2>
               <p className="mt-2 text-sm text-gray-600 flex-1">{s.short}</p>
               <Link href={'/services/' + s.slug} className="keep-hover inline-block mt-4 px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600 self-start">
