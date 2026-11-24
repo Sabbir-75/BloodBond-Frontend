@@ -149,6 +149,11 @@ export default function HomePage() {
                 <div key={s.BloodGroup} className="border border-gray-200 rounded-lg p-4 text-center card-lift">
                   <p className="text-2xl font-bold text-brand-600">{s.BloodGroup}</p>
                   <p className="text-gray-700 mt-1">{s.UnitsAvailable} bags</p>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {(s.AvailableDonors || 0) === 1
+                      ? '1 donor available'
+                      : (s.AvailableDonors || 0) + ' donors available'}
+                  </p>
                 </div>
               ))}
             </div>

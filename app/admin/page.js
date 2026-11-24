@@ -119,7 +119,7 @@ export default function AdminPage() {
 
       {/* Counts */}
       {dashboard && (
-        <div className="mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
           {[
             ['Total Donors', dashboard.TotalDonors],
             ['Total Acceptors', dashboard.TotalAcceptors],
@@ -127,6 +127,7 @@ export default function AdminPage() {
             ['Pending Requests', dashboard.PendingRequests],
             ['Total Donations', dashboard.TotalDonations],
             ['Stock Units', dashboard.TotalStockUnits],
+            ['Total Blood Banks', dashboard.TotalBloodBanks],
           ].map(([label, value]) => (
             <div key={label} className="bg-white border border-gray-200 rounded-lg p-4 text-center">
               <p className="text-2xl font-bold text-brand-600">{value}</p>
@@ -190,6 +191,11 @@ export default function AdminPage() {
             <div key={s.BloodGroup} className="bg-white border border-gray-200 rounded-lg p-4 text-center">
               <p className="text-2xl font-bold text-brand-600">{s.BloodGroup}</p>
               <p className="text-gray-700 mt-1">{s.UnitsAvailable} bags</p>
+              <p className="text-sm text-gray-600 mt-1">
+                {(s.AvailableDonors || 0) === 1
+                  ? '1 donor available'
+                  : (s.AvailableDonors || 0) + ' donors available'}
+              </p>
             </div>
           ))}
         </div>

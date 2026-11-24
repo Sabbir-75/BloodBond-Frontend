@@ -58,12 +58,25 @@ export default function BloodBanksPage() {
     return s ? s.units : 0;
   }
 
+  // Mot koyta bag ache - shob bank miliye (summary line-er jonno).
+  const totalBags = banks.reduce(
+    (sum, b) => sum + b.stock.reduce((s2, x) => s2 + (x.units || 0), 0),
+    0
+  );
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold text-gray-900">Blood Banks</h1>
       <p className="text-gray-600 mt-1">
         Kon bank-e kon group-er koy bag ache. Phone / Email button diye bank-er sathe contact koro.
       </p>
+
+      {!loading && !error && (
+        <p className="mt-2 text-sm font-medium text-gray-700">
+          {banks.length === 1 ? '1 blood bank' : banks.length + ' blood banks'} •{' '}
+          {totalBags === 1 ? '1 total bag' : totalBags + ' total bags'}
+        </p>
+      )}
 
       {loading && <p className="mt-8 text-gray-600">Loading blood banks...</p>}
       {error && <p className="mt-8 text-red-600">{error}</p>}
