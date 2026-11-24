@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* BloodBond - body WHITE, text dark grey, links/buttons RED. */
+body {
+  background-color: #ffffff;
+  color: #1f2937;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: #dc2626;
+}
+
+a:hover {
+  color: #991b1b;
+}

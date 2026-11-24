@@ -1,0 +1,5 @@
+# Never commit secrets or installed packages
+node_modules/
+.next/
+.env.local
+.env

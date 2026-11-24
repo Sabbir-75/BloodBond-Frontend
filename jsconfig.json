@@ -1,0 +1,1 @@
+{"compilerOptions":{"jsx":"preserve","lib":["dom","dom.iterable","esnext"],"module":"esnext","moduleResolution":"bundler","paths":{"@/*":["./*"]},"target":"ES2017"}}
