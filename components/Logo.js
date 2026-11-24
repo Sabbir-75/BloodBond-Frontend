@@ -17,7 +17,7 @@ export default function Logo({ light = false, showTagline = true }) {
           Blood<span className="text-brand-500">Bond</span>
         </span>
         {showTagline && (
-          <span className={'block text-[10px] tracking-wide mt-0.5 ' + (light ? 'text-red-100' : 'text-gray-500')}>
+          <span className={'hidden min-[420px]:block text-[10px] tracking-wide mt-0.5 ' + (light ? 'text-red-100' : 'text-gray-500')}>
             Donate • Connect • Save Lives
           </span>
         )}

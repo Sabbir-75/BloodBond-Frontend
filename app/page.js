@@ -82,13 +82,13 @@ export default function HomePage() {
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/55 to-black/35" />
-        <div className="relative z-10 max-w-6xl mx-auto px-4 py-20 md:py-24">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 py-16 sm:py-20 md:py-24">
           <div className="max-w-2xl animate-fade-up">
             <p className="inline-flex items-center gap-2 bg-white/10 border border-white/30 rounded-full px-3 py-1 text-sm text-red-100">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse-ring" />
               BloodBond — Blood Donation Management System
             </p>
-            <h1 className="mt-5 text-4xl md:text-5xl font-bold leading-tight">
+            <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
               Donate Blood, Keep the World Beating
             </h1>
             <p className="mt-4 text-lg text-white/90">
@@ -217,7 +217,7 @@ export default function HomePage() {
       {/* Available donors preview */}
       <section className="max-w-6xl mx-auto px-4 py-12">
         <Reveal>
-          <div className="flex items-end justify-between">
+          <div className="flex flex-wrap items-end justify-between gap-2">
             <div>
               <h2 className="text-2xl font-bold text-gray-900">Available Donors</h2>
               <p className="text-gray-600 mt-1">Donors who can give blood now.</p>
@@ -411,12 +411,11 @@ export default function HomePage() {
         <Reveal>
           <div className="relative rounded-2xl overflow-hidden px-6 py-16 text-center text-white">
 
-            {/* Fixed Background Image */}
+            {/* Fixed Background Image (scroll on mobile, fixed on md+ — see .cta-bg) */}
             <div
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat cta-bg"
               style={{
                 backgroundImage: "url('https://i.ibb.co.com/39cMmt7L/image.png')",
-                backgroundAttachment: "fixed",
               }}
             ></div>
 
@@ -425,7 +424,7 @@ export default function HomePage() {
 
             {/* Content */}
             <div className="relative z-10">
-              <h2 className="mt-4 text-3xl font-bold max-w-[600px] mx-auto">
+              <h2 className="mt-4 text-2xl sm:text-3xl font-bold max-w-[600px] mx-auto">
                 Every drop matters! Join us at our next blood drive &amp; Be a Lifesaver!
               </h2>
 

@@ -78,7 +78,7 @@ export default function RequestPage() {
         <div className="mt-6 bg-green-50 border border-green-200 text-green-800 rounded-md p-4 text-sm">{success}</div>
       )}
 
-      <form onSubmit={handleSubmit} className="mt-6 bg-white border border-gray-200 rounded-lg p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="mt-6 bg-white border border-gray-200 rounded-lg p-5 sm:p-6 space-y-4">
         <div className="grid gap-4 md:grid-cols-2">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Blood Group Needed</label>

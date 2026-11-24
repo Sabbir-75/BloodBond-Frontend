@@ -3,6 +3,7 @@
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SmoothScroll from '@/components/SmoothScroll';
 import { AuthProvider } from '@/components/AuthContext';
 import { FAVICON_DATA_URI } from '@/lib/logoData';
 import { Poppins } from 'next/font/google';
@@ -29,6 +30,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={poppins.variable}>
       <body>
         <AuthProvider>
+          <SmoothScroll />
           <Navbar />
           <main className="min-h-screen">{children}</main>
           <Footer />

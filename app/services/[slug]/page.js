@@ -30,7 +30,7 @@ export default function ServiceDetailPage({ params }) {
 
       {/* What is this service? */}
       <Reveal>
-        <section className="mt-8 bg-white border border-gray-200 rounded-lg p-6 card-lift">
+        <section className="mt-8 bg-white border border-gray-200 rounded-lg p-5 sm:p-6 card-lift">
           <h2 className="text-lg font-bold text-gray-900">What is this service?</h2>
           <p className="mt-2 text-gray-700">{service.what}</p>
         </section>
@@ -38,7 +38,7 @@ export default function ServiceDetailPage({ params }) {
 
       {/* How it works */}
       <Reveal>
-        <section className="mt-6 bg-white border border-gray-200 rounded-lg p-6 card-lift">
+        <section className="mt-6 bg-white border border-gray-200 rounded-lg p-5 sm:p-6 card-lift">
           <h2 className="text-lg font-bold text-gray-900">How it works</h2>
           <ol className="mt-4 space-y-3">
             {service.steps.map((step, i) => (
@@ -55,7 +55,7 @@ export default function ServiceDetailPage({ params }) {
 
       {/* Who is it for? */}
       <Reveal>
-        <section className="mt-6 bg-white border border-gray-200 rounded-lg p-6 card-lift">
+        <section className="mt-6 bg-white border border-gray-200 rounded-lg p-5 sm:p-6 card-lift">
           <h2 className="text-lg font-bold text-gray-900">Who is it for?</h2>
           <p className="mt-2 text-gray-700">{service.who}</p>
           <Link

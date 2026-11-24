@@ -143,10 +143,10 @@ export default function AdminPage() {
         <div className="mt-4 space-y-3">
           {pendingUsers.map((u) => (
             <div key={u.UserID} className="bg-white border border-gray-200 rounded-lg p-4 flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <p className="font-bold text-gray-900">{u.FullName} <span className="text-sm font-medium text-brand-600">({u.Role})</span></p>
-                <p className="text-sm text-gray-600">{u.Email} • {u.Phone || '-'} • {u.Occupation || ''}</p>
-                <p className="text-sm text-gray-600">{u.Upazila ? u.Upazila + ', ' : ''}{u.District}, {u.Division}</p>
+              <div className="min-w-0">
+                <p className="font-bold text-gray-900 break-words">{u.FullName} <span className="text-sm font-medium text-brand-600">({u.Role})</span></p>
+                <p className="text-sm text-gray-600 break-words">{u.Email} • {u.Phone || '-'} • {u.Occupation || ''}</p>
+                <p className="text-sm text-gray-600 break-words">{u.Upazila ? u.Upazila + ', ' : ''}{u.District}, {u.Division}</p>
               </div>
               <button onClick={() => approveUser(u.UserID)} className="px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600">
                 Approve
@@ -163,9 +163,9 @@ export default function AdminPage() {
         <div className="mt-4 space-y-3">
           {pendingRequests.map((r) => (
             <div key={r.RequestID} className="bg-white border border-gray-200 rounded-lg p-4 flex flex-wrap items-center justify-between gap-3">
-              <div>
+              <div className="min-w-0">
                 <p className="font-bold text-brand-600">{r.BloodGroup} — {r.UnitsNeeded} bag(s) • {r.Urgency}</p>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 break-words">
                   {r.AcceptorName || r.FullName || ''} • {r.HospitalName || ''} • {r.District}, {r.Division}
                 </p>
               </div>

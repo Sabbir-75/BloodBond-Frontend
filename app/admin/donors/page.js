@@ -147,7 +147,7 @@ export default function AdminDonorsPage() {
               Next eligible: {d.IsEligible ? 'Available now' : 'Available from ' + formatDate(d.NextEligibleDate)}
             </p>
             <p className="text-sm text-gray-600 mt-1">Phone: {d.Phone || '-'}</p>
-            <p className="text-sm text-gray-600">Email: {d.Email || '-'}</p>
+            <p className="text-sm text-gray-600 break-words">Email: {d.Email || '-'}</p>
           </div>
         ))}
       </div>

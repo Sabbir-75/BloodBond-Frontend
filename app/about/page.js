@@ -33,12 +33,12 @@ export default function AboutPage() {
           alt="A nurse taking blood from a donor at a blood donation camp"
           width={1600}
           height={1067}
-          className="w-full h-[320px] md:h-[420px] object-cover animate-hero-zoom"
+          className="w-full h-[280px] sm:h-[320px] md:h-[420px] object-cover animate-hero-zoom"
           priority
         />
         <div className="absolute inset-0 bg-brand-700/80 flex items-center">
           <div className="max-w-6xl mx-auto px-4 w-full animate-fade-up">
-            <h1 className="text-4xl md:text-5xl font-bold text-white">About BloodBond</h1>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">About BloodBond</h1>
             <p className="mt-3 text-lg text-red-100 max-w-2xl">
               A blood donation management system built for Bangladesh —
               connecting donors, patients and hospitals in one place.
@@ -53,7 +53,7 @@ export default function AboutPage() {
           <Reveal>
             <div>
               <p className="text-sm font-bold text-brand-600">Our Story</p>
-              <h2 className="mt-2 text-3xl font-bold text-gray-900">
+              <h2 className="mt-2 text-2xl sm:text-3xl font-bold text-gray-900">
                 Dedicated to Life, The Story of Our Blood Drive Initiative
               </h2>
               <p className="mt-4 text-gray-700">
@@ -108,7 +108,7 @@ export default function AboutPage() {
       <section className="max-w-6xl mx-auto px-4 py-12">
         <div className="grid gap-8 md:grid-cols-2 items-start">
           <Reveal>
-            <div className="bg-brand-700 text-white rounded-2xl p-8">
+            <div className="bg-brand-700 text-white rounded-2xl p-6 sm:p-8">
               <h2 className="text-2xl font-bold">Why We Do It</h2>
               <p className="mt-4 text-red-100">
                 Every 2 seconds, someone in the world needs a blood transfusion.
@@ -207,12 +207,11 @@ export default function AboutPage() {
         <Reveal>
           <div className="relative rounded-2xl overflow-hidden px-6 py-10 text-center text-white">
 
-            {/* Background Image */}
+            {/* Background Image (scroll on mobile, fixed on md+ — see .cta-bg) */}
             <div
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat cta-bg"
               style={{
                 backgroundImage: "url('https://i.ibb.co.com/39cMmt7L/image.png')",
-                backgroundAttachment: "fixed",
               }}
             ></div>
 
@@ -221,7 +220,7 @@ export default function AboutPage() {
 
             {/* Content */}
             <div className="relative z-10">
-              <h2 className="text-3xl font-bold">
+              <h2 className="text-2xl sm:text-3xl font-bold">
                 Every drop matters! Join us &amp; Be a Lifesaver!
               </h2>
 

@@ -148,16 +148,16 @@ export default function ProfilePage() {
       {profile && (
         <div className="mt-6 bg-white border border-gray-200 rounded-lg p-6 card-lift">
           <div className="flex items-center gap-4">
-            <span className="w-16 h-16 rounded-full bg-brand-500 text-white flex items-center justify-center text-2xl font-bold">
+            <span className="w-16 h-16 shrink-0 rounded-full bg-brand-500 text-white flex items-center justify-center text-2xl font-bold">
               {profile.BloodGroup}
             </span>
-            <div>
-              <p className="text-lg font-bold text-gray-900">{profile.FullName}</p>
+            <div className="min-w-0">
+              <p className="text-lg font-bold text-gray-900 break-words">{profile.FullName}</p>
               <p className="text-sm text-gray-600">{profile.Occupation || ''}</p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 break-words">
                 {profile.Upazila ? profile.Upazila + ', ' : ''}{profile.District}, {profile.Division}
               </p>
-              <p className="text-sm text-gray-600">{profile.Email}</p>
+              <p className="text-sm text-gray-600 break-words">{profile.Email}</p>
               <p className="text-sm text-gray-600">{profile.Phone || ''}</p>
             </div>
           </div>

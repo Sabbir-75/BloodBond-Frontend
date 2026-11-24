@@ -84,7 +84,7 @@ function LoginForm() {
         </div>
 
         {/* Right: login form */}
-        <div className="p-8 md:p-10">
+        <div className="p-6 sm:p-8 md:p-10">
           <h1 className="text-3xl font-bold text-gray-900">Welcome back</h1>
           <p className="text-gray-600 mt-1">
             Login to see donor contacts, request blood, or manage the system.

@@ -7,10 +7,13 @@ body {
   background-color: #ffffff;
   color: #1f2937;
   font-family: var(--font-poppins), 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  /* Safety net: never allow a horizontal scrollbar (clip keeps sticky working). */
+  overflow-x: clip;
 }
 
 html {
-  scroll-behavior: smooth;
+  /* No CSS smooth scroll — Lenis (components/SmoothScroll.js) manages
+     scrolling now; the two would fight each other. */
   /* Sticky navbar offset, so anchor jumps never hide under the navbar. */
   scroll-padding-top: 4.5rem;
 }
@@ -98,6 +101,17 @@ a:not(.keep-hover):hover {
 }
 .tilt-3d:hover {
   transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+}
+
+/* CTA banner background: fixed attachment looks great on desktop but
+   breaks on iOS Safari (it zooms) — scroll on small screens, fixed on md+. */
+.cta-bg {
+  background-attachment: scroll;
+}
+@media (min-width: 768px) {
+  .cta-bg {
+    background-attachment: fixed;
+  }
 }
 
 /* If the user prefers less motion, turn animations off. */

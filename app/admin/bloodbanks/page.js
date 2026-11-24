@@ -241,11 +241,11 @@ export default function AdminBloodBanksPage() {
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <h3 className="text-lg font-bold text-gray-900">{b.bankName}</h3>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-sm text-gray-600 mt-1 break-words">
                     {b.phone ? <a href={'tel:' + b.phone} className="text-brand-600">{b.phone}</a> : '-'}
                     {b.email ? ' • ' + b.email : ''}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 break-words">
                     {b.address ? b.address + ', ' : ''}
                     {b.upazila ? b.upazila + ', ' : ''}{b.district || ''}{b.division ? ', ' + b.division : ''}
                   </p>
@@ -312,7 +312,7 @@ export default function AdminBloodBanksPage() {
                           min="0"
                           value={editStock[g] ?? 0}
                           onChange={(e) => setEditStock((s) => ({ ...s, [g]: e.target.value }))}
-                          className={inputClass}
+                          className={inputClass + ' min-w-0 flex-1'}
                         />
                         <button onClick={() => saveStock(b.bankId, g)} disabled={editSaving} className="px-3 py-2 text-sm font-medium text-brand-600 border border-brand-500 rounded-md hover:bg-brand-500 hover:text-white disabled:opacity-50">
                           Save

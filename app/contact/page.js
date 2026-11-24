@@ -41,7 +41,7 @@ export default function ContactPage() {
           </p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="mt-6 bg-white border border-gray-200 rounded-lg p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="mt-6 bg-white border border-gray-200 rounded-lg p-5 sm:p-6 space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
             <input value={name} onChange={(e) => setName(e.target.value)} className={inputClass} placeholder="Full name" />
@@ -61,7 +61,7 @@ export default function ContactPage() {
         </form>
       )}
 
-      <div className="mt-8 bg-white border border-gray-200 rounded-lg p-6">
+      <div className="mt-8 bg-white border border-gray-200 rounded-lg p-5 sm:p-6">
         <h2 className="font-bold text-gray-900">BloodBond</h2>
         <p className="text-sm text-gray-600 mt-1">
           Blood Donation Management System — CSE 2291, Northern University Bangladesh.
