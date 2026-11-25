@@ -15,7 +15,6 @@ import Reveal from '@/components/Reveal';
 import StatCounter from '@/components/StatCounter';
 import LottiePlayer from '@/components/LottiePlayer';
 import { TESTIMONIALS, DRIVES, FAQS } from '@/lib/content';
-import heartbeatData from '@/public/lottie/heartbeat.json';
 import heartMedicalData from '@/public/lottie/heart-medical.json';
 import bloodDropData from '@/public/lottie/blood-drop.json';
 import { MdAddLocation, MdOutlineMoreTime } from 'react-icons/md';
@@ -148,7 +147,6 @@ export default function HomePage() {
               {loading ? 'Loading stock...' : totalUnits + ' bags of blood available right now'}
             </p>
             <div className="mt-6 flex items-center justify-center gap-3">
-              <LottiePlayer animationData={heartbeatData} className="w-16 h-10 shrink-0" />
               <p className="text-sm text-white/90">Every 2 seconds, someone needs blood. Your donation can save a life today.</p>
             </div>
           </div>
