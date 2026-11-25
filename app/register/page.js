@@ -3,10 +3,12 @@
 
 'use client';
 
-import { Suspense, useState } from 'react';
+import { Suspense, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { apiFetch, BLOOD_GROUPS, OCCUPATIONS } from '@/lib/api';
+import { resizePhoto } from '@/lib/photo';
+import Avatar from '@/components/Avatar';
 import LocationSelects, { inputClass } from '@/components/LocationSelects';
 
 // Only a same-site path is a safe place to send the user after login.
@@ -28,6 +30,26 @@ function RegisterForm() {
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Profile photo (OPTIONAL) - gol preview-e click kore file nao.
+  // Chobi-ta pathanor age choto kora hoy (lib/photo.js, max 512px JPEG).
+  const [photo, setPhoto] = useState('');
+  const [photoError, setPhotoError] = useState('');
+  const photoInputRef = useRef(null);
+
+  async function handlePhotoPick(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    setPhotoError('');
+    try {
+      const dataUri = await resizePhoto(file);
+      setPhoto(dataUri);
+    } catch (err) {
+      setPhotoError(err.message);
+    }
+    // Eki file abar choose kora jabe.
+    e.target.value = '';
+  }
+
   function set(field, value) {
     setForm((f) => ({ ...f, [field]: value }));
   }
@@ -42,7 +64,8 @@ function RegisterForm() {
     }
     setLoading(true);
     try {
-      await apiFetch('/auth/register', { method: 'POST', body: form });
+      // Photo na thakle undefined jay - backend tokhon chobi save kore na.
+      await apiFetch('/auth/register', { method: 'POST', body: { ...form, photo: photo || undefined } });
       setSuccess('Register hoyeche! Admin approve korle login korte parba.');
     } catch (err) {
       setError(err.message);
@@ -68,6 +91,32 @@ function RegisterForm() {
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="mt-6 bg-white border border-gray-200 rounded-lg p-5 sm:p-6 space-y-4">
+          {/* Profile photo - gol preview, click korle file picker khulbe */}
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={() => photoInputRef.current && photoInputRef.current.click()}
+              aria-label="Profile photo choose koro"
+              className="shrink-0 rounded-full ring-2 ring-brand-500 ring-offset-2 ring-offset-white hover:ring-brand-600"
+            >
+              <Avatar photo={photo || null} name={form.fullName || '?'} className="w-20 h-20 text-2xl" />
+            </button>
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-gray-700">Profile Photo (optional)</p>
+              <p className="text-xs text-gray-500 mt-1">
+                Gol chobi-te click kore phone / computer theke chobi nao.
+                Chobi na dileo cholbe.
+              </p>
+              {photo && (
+                <button type="button" onClick={() => setPhoto('')} className="mt-1 text-xs text-brand-600 font-medium">
+                  Remove photo
+                </button>
+              )}
+              {photoError && <p className="mt-1 text-xs text-red-600">{photoError}</p>}
+            </div>
+            <input ref={photoInputRef} type="file" accept="image/*" onChange={handlePhotoPick} className="hidden" />
+          </div>
+
           <div className="grid gap-4 md:grid-cols-2">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>

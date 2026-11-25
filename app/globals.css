@@ -94,6 +94,30 @@ a:not(.keep-hover):hover {
   box-shadow: 0 12px 28px rgba(220, 38, 38, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
+/* Team marquee (Home page, "Meet Our Team"): card gulo baam dike
+   cholte thake, hover korle theme jay. List-ta duibar bosano hoy,
+   tai -50% porjonto gelei loop-ta seamless hoy. */
+@keyframes teamMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.team-marquee-track {
+  animation: teamMarquee 40s linear infinite;
+}
+.team-marquee:hover .team-marquee-track {
+  animation-play-state: paused;
+}
+/* Dui pashe halka fade - marquee-ta professional lage. */
+.team-marquee {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+/* Gaming / angled card: kona kata (clip-path). Lal border-ta baire-r
+   lal div theke ashe, vitore-r sada div-ta eki shape-e kata. */
+.team-card-clip {
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+}
+
 /* Slight 3D tilt for the hero photo card. */
 .tilt-3d {
   transform: perspective(1000px) rotateY(-6deg) rotateX(2deg);
@@ -119,7 +143,8 @@ a:not(.keep-hover):hover {
   .animate-fade-up,
   .animate-float,
   .animate-pulse-ring,
-  .animate-hero-zoom {
+  .animate-hero-zoom,
+  .team-marquee-track {
     animation: none;
   }
   .reveal {

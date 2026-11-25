@@ -112,6 +112,9 @@ export default function AdminPage() {
         <Link href="/admin/bloodbanks" className="keep-hover px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600">
           Manage Blood Banks
         </Link>
+        <Link href="/admin/team" className="keep-hover px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600">
+          Team Members
+        </Link>
       </div>
 
       {message && <p className="mt-4 text-sm text-green-700 bg-green-50 border border-green-200 rounded-md p-3">{message}</p>}

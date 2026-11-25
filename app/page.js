@@ -9,6 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { apiFetch } from '@/lib/api';
 import { useAuth } from '@/components/AuthContext';
+import Avatar from '@/components/Avatar';
 import DonorCard from '@/components/DonorCard';
 import Reveal from '@/components/Reveal';
 import StatCounter from '@/components/StatCounter';
@@ -34,9 +35,43 @@ const STATS = [
   { value: 3, suffix: '', label: 'Lives Saved', note: 'One donation can save up to 3 lives' },
 ];
 
+// Team member card - angled / gaming style: kona kata (clip-path),
+// lal border-ta baire-r lal div theke ashe. Photo gol, nam + info niche.
+function TeamCard({ member }) {
+  return (
+    <div className="w-[280px] shrink-0 mr-5">
+      <div className="team-card-clip bg-brand-500 p-[2px]">
+        <div className="team-card-clip bg-white px-5 py-6 text-center">
+          <Avatar photo={member.photo} name={member.fullName} className="w-24 h-24 text-3xl mx-auto ring-2 ring-brand-500" />
+          <p className="mt-4 font-bold text-gray-900 text-lg leading-tight break-words">{member.fullName}</p>
+          {member.university && (
+            <p className="mt-3 text-sm text-gray-700 break-words">
+              <span className="block text-xs font-bold text-brand-600 uppercase tracking-wide">University</span>
+              {member.university}
+            </p>
+          )}
+          {member.department && (
+            <p className="mt-2 text-sm text-gray-700 break-words">
+              <span className="block text-xs font-bold text-brand-600 uppercase tracking-wide">Department</span>
+              {member.department}
+            </p>
+          )}
+          {member.address && (
+            <p className="mt-2 text-sm text-gray-600 break-words">
+              <span className="block text-xs font-bold text-brand-600 uppercase tracking-wide">Address</span>
+              {member.address}
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function HomePage() {
   const [stock, setStock] = useState([]);
   const [donors, setDonors] = useState([]);
+  const [team, setTeam] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [openFaq, setOpenFaq] = useState(0);
@@ -63,6 +98,9 @@ export default function HomePage() {
       }
     }
     load();
+    // Team alada kore load - backend purono holeo home page cholbe,
+    // team section-ta tokhon lukiye thakbe.
+    apiFetch('/team').then(setTeam).catch(() => {});
   }, []);
 
   const totalUnits = stock.reduce((sum, s) => sum + (s.UnitsAvailable || 0), 0);
@@ -83,7 +121,7 @@ export default function HomePage() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/55 to-black/35" />
         <div className="relative z-10 max-w-6xl mx-auto px-4 py-16 sm:py-20 md:py-24">
-          <div className="max-w-2xl animate-fade-up">
+          <div className="max-w-2xl mx-auto text-center animate-fade-up">
             <p className="inline-flex items-center gap-2 bg-white/10 border border-white/30 rounded-full px-3 py-1 text-sm text-red-100">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse-ring" />
               BloodBond — Blood Donation Management System
@@ -95,7 +133,7 @@ export default function HomePage() {
               Find verified blood donors near you, request blood in minutes,
               and help hospitals save lives — all in one place, free for everyone.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link href="/donors" className="keep-hover px-6 py-3 bg-white text-brand-600 font-bold rounded-md hover:bg-red-100">
                 Find a Donor
               </Link>
@@ -109,7 +147,7 @@ export default function HomePage() {
             <p className="mt-1 text-white/90 text-sm">
               {loading ? 'Loading stock...' : totalUnits + ' bags of blood available right now'}
             </p>
-            <div className="mt-6 flex items-center gap-3">
+            <div className="mt-6 flex items-center justify-center gap-3">
               <LottiePlayer animationData={heartbeatData} className="w-16 h-10 shrink-0" />
               <p className="text-sm text-white/90">Every 2 seconds, someone needs blood. Your donation can save a life today.</p>
             </div>
@@ -160,6 +198,25 @@ export default function HomePage() {
           </Reveal>
         )}
       </section>
+
+      {/* Meet Our Team - marquee. Member na thakle section-ta lukiye thake.
+          Card list-ta duibar bosano hoy, jeno loop-ta seamless hoy;
+          hover korle marquee theme jay. */}
+      {team.length > 0 && (
+        <section className="max-w-6xl mx-auto px-4 py-12">
+          <Reveal>
+            <h2 className="text-2xl font-bold text-gray-900 text-center">Meet Our Team</h2>
+            <p className="text-gray-600 mt-1 text-center">The people behind BloodBond.</p>
+          </Reveal>
+          <div className="team-marquee mt-8 overflow-hidden">
+            <div className="team-marquee-track flex w-max">
+              {[...team, ...team].map((m, i) => (
+                <TeamCard key={m.memberId + '-' + i} member={m} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Our Services */}
       <section className="bg-gray-50 mt-12">

@@ -1,7 +1,11 @@
 // BloodBond Frontend - top navigation bar (on every page)
 // Shows different links for guests, Donor, Acceptor and Admin.
 // "Available Blood" dropdown: Available Donors + Blood Banks.
-// "Dashboard" dropdown (Admin only): Admin Dashboard + All Donors + Manage Banks.
+// Login kora user-er dan dike nam ar role lekha thake NA - ekta GOL
+// avatar button thake (chobi thakle chobi, na thakle nam-er initials).
+// Avatar-er upor hover korle (desktop) ba click korle (mobile/touch)
+// menu khule: nam + role, tarpor role onujai link (My Profile,
+// Admin Dashboard, All Donors, Manage Banks, Team Members...), Logout.
 
 'use client';
 
@@ -11,24 +15,47 @@ import { usePathname, useRouter } from 'next/navigation';
 import { MdMenu, MdClose } from 'react-icons/md';
 import { useAuth } from './AuthContext';
 import Logo from './Logo';
+import Avatar from './Avatar';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 
-  // Which desktop dropdown is open: 'blood' | 'dashboard' | null.
+  // Which desktop dropdown is open: 'blood' | 'avatar' | null.
   const [openMenu, setOpenMenu] = useState(null);
-  // Which drawer accordion is open: 'blood' | 'dashboard' | null.
+  // Which drawer accordion is open: 'blood' | null.
   const [mobileOpen, setMobileOpen] = useState(null);
   // Left slide-in drawer (mobile/tablet only) khola kina.
   const [drawerOpen, setDrawerOpen] = useState(false);
   const desktopNavRef = useRef(null);
+  const avatarRef = useRef(null);
 
   // A dropdown parent is "active" when the current page is one of its children.
   const bloodActive = pathname === '/donors' || pathname === '/bloodbanks';
   const dashActive =
-    pathname === '/admin' || pathname === '/admin/donors' || pathname === '/admin/bloodbanks';
+    pathname === '/admin' || pathname === '/admin/donors' || pathname === '/admin/bloodbanks' ||
+    pathname === '/admin/team';
+  // Avatar menu-ta active hobe jokhon tar kono link-er page khola thakbe.
+  const avatarActive = pathname === '/profile' || pathname === '/request' || dashActive;
+
+  // Avatar menu-r link - role onujai alada.
+  const avatarLinks =
+    !user ? [] :
+    user.role === 'Donor' ? [
+      { href: '/profile', label: 'My Profile' },
+    ] :
+    user.role === 'Acceptor' ? [
+      { href: '/profile', label: 'My Profile' },
+      { href: '/request', label: 'Request Blood' },
+    ] :
+    user.role === 'Admin' ? [
+      { href: '/profile', label: 'My Profile' },
+      { href: '/admin', label: 'Admin Dashboard' },
+      { href: '/admin/donors', label: 'All Donors' },
+      { href: '/admin/bloodbanks', label: 'Manage Banks' },
+      { href: '/admin/team', label: 'Team Members' },
+    ] : [];
 
   // Close menus when the route changes (after navigating to a child).
   useEffect(() => {
@@ -41,7 +68,9 @@ export default function Navbar() {
   // Escape drawer-tao bondho korbe.
   useEffect(() => {
     function onDocClick(e) {
-      if (desktopNavRef.current && !desktopNavRef.current.contains(e.target)) {
+      const inNav = desktopNavRef.current && desktopNavRef.current.contains(e.target);
+      const inAvatar = avatarRef.current && avatarRef.current.contains(e.target);
+      if (!inNav && !inAvatar) {
         setOpenMenu(null);
       }
     }
@@ -167,60 +196,65 @@ export default function Navbar() {
             <Link href="/services" className={linkClass('/services')}>Services</Link>
             <Link href="/about" className={linkClass('/about')}>About</Link>
             <Link href="/contact" className={linkClass('/contact')}>Contact Us</Link>
-            {user && user.role === 'Donor' && (
-              <Link href="/profile" className={linkClass('/profile')}>My Profile</Link>
-            )}
-            {user && user.role === 'Acceptor' && (
-              <Link href="/request" className={linkClass('/request')}>Request Blood</Link>
-            )}
-
-            {/* Dashboard dropdown (Admin only) */}
-            {user && user.role === 'Admin' && (
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => setOpenMenu(openMenu === 'dashboard' ? null : 'dashboard')}
-                  aria-expanded={openMenu === 'dashboard'}
-                  aria-haspopup="true"
-                  className={parentClass(dashActive)}
-                >
-                  Dashboard {chevron(openMenu === 'dashboard')}
-                </button>
-                {openMenu === 'dashboard' && (
-                  <div className="absolute left-0 top-full mt-1 w-56 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50">
-                    <Link href="/admin" className={childClass('/admin')}>Admin Dashboard</Link>
-                    <Link href="/admin/donors" className={childClass('/admin/donors')}>All Donors</Link>
-                    <Link href="/admin/bloodbanks" className={childClass('/admin/bloodbanks')}>Manage Banks</Link>
-                  </div>
-                )}
-              </div>
-            )}
           </nav>
 
-          {/* Right side: login / user */}
+          {/* Right side: login / avatar menu */}
           <div className="flex items-center gap-2 shrink-0">
             {!user && (
               <>
                 <Link href="/login" className="keep-hover px-3 py-2 text-xs sm:px-4 sm:text-sm font-medium text-brand-600 border border-brand-500 rounded-md hover:bg-brand-500 hover:text-white whitespace-nowrap">
                   Login
                 </Link>
-                <Link href={user ? '/donor-form' : '/login?next=/donor-form'} className="keep-hover px-3 py-2 text-xs sm:px-4 sm:text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600 whitespace-nowrap">
+                <Link href="/login?next=/donor-form" className="keep-hover px-3 py-2 text-xs sm:px-4 sm:text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600 whitespace-nowrap">
                   Become a Donor
                 </Link>
               </>
             )}
             {user && (
-              <>
-                <span className="text-sm text-gray-700 hidden xl:block">
-                  {user.fullName} ({user.role})
-                </span>
+              <div
+                ref={avatarRef}
+                className="relative"
+                onMouseEnter={() => setOpenMenu('avatar')}
+                onMouseLeave={() => setOpenMenu(null)}
+              >
                 <button
-                  onClick={handleLogout}
-                  className="px-3 py-2 text-xs sm:px-4 sm:text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600 whitespace-nowrap"
+                  type="button"
+                  onClick={() => setOpenMenu(openMenu === 'avatar' ? null : 'avatar')}
+                  aria-expanded={openMenu === 'avatar'}
+                  aria-haspopup="true"
+                  aria-label="Profile menu"
+                  className={
+                    'block rounded-full ring-2 ring-offset-2 ring-offset-white transition ' +
+                    (avatarActive ? 'ring-brand-600' : 'ring-brand-500 hover:ring-brand-600')
+                  }
                 >
-                  Logout
+                  <Avatar photo={user.profilePhoto} name={user.fullName} className="w-10 h-10 text-sm" />
                 </button>
-              </>
+                {openMenu === 'avatar' && (
+                  <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50">
+                    {/* Header: boro avatar + nam + role */}
+                    <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+                      <Avatar photo={user.profilePhoto} name={user.fullName} className="w-12 h-12 text-lg" />
+                      <div className="min-w-0">
+                        <p className="text-sm font-bold text-gray-900 break-words">{user.fullName}</p>
+                        <p className="text-xs text-brand-600">{user.role}</p>
+                      </div>
+                    </div>
+                    {avatarLinks.map((l) => (
+                      <Link key={l.href} href={l.href} className={childClass(l.href)}>{l.label}</Link>
+                    ))}
+                    <div className="border-t border-gray-100 mt-1 pt-1">
+                      <button
+                        type="button"
+                        onClick={handleLogout}
+                        className="block w-full text-left px-4 py-2 text-sm font-medium text-brand-600 hover:bg-red-50"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             )}
           </div>
         </div>
@@ -287,43 +321,25 @@ export default function Navbar() {
           <Link href="/services" onClick={() => setDrawerOpen(false)} className={linkClass('/services')}>Services</Link>
           <Link href="/about" onClick={() => setDrawerOpen(false)} className={linkClass('/about')}>About</Link>
           <Link href="/contact" onClick={() => setDrawerOpen(false)} className={linkClass('/contact')}>Contact Us</Link>
-          {user && user.role === 'Donor' && (
-            <Link href="/profile" onClick={() => setDrawerOpen(false)} className={linkClass('/profile')}>My Profile</Link>
-          )}
-          {user && user.role === 'Acceptor' && (
-            <Link href="/request" onClick={() => setDrawerOpen(false)} className={linkClass('/request')}>Request Blood</Link>
-          )}
-
-          {/* Dashboard accordion (Admin only) */}
-          {user && user.role === 'Admin' && (
-            <div>
-              <button
-                type="button"
-                onClick={() => setMobileOpen(mobileOpen === 'dashboard' ? null : 'dashboard')}
-                aria-expanded={mobileOpen === 'dashboard'}
-                className={parentClass(dashActive) + ' w-full justify-between'}
-              >
-                <span>Dashboard</span> {chevron(mobileOpen === 'dashboard')}
-              </button>
-              {mobileOpen === 'dashboard' && (
-                <div className="pl-4 mt-1 flex flex-col gap-1">
-                  <Link href="/admin" onClick={() => setDrawerOpen(false)} className={linkClass('/admin')}>Admin Dashboard</Link>
-                  <Link href="/admin/donors" onClick={() => setDrawerOpen(false)} className={linkClass('/admin/donors')}>All Donors</Link>
-                  <Link href="/admin/bloodbanks" onClick={() => setDrawerOpen(false)} className={linkClass('/admin/bloodbanks')}>Manage Banks</Link>
-                </div>
-              )}
-            </div>
-          )}
         </nav>
 
-        {/* Bottom: user / login */}
+        {/* Bottom: user area - avatar + nam + role, tarpor link, tarpor Logout */}
         <div className="border-t border-gray-200 px-4 py-4 shrink-0">
           {user ? (
-            <div className="flex flex-col gap-3">
-              <p className="text-sm text-gray-700 break-words">{user.fullName} ({user.role})</p>
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-3 pb-3 mb-1 border-b border-gray-100">
+                <Avatar photo={user.profilePhoto} name={user.fullName} className="w-11 h-11 text-base ring-2 ring-brand-500" />
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-gray-900 break-words">{user.fullName}</p>
+                  <p className="text-xs text-brand-600">{user.role}</p>
+                </div>
+              </div>
+              {avatarLinks.map((l) => (
+                <Link key={l.href} href={l.href} onClick={() => setDrawerOpen(false)} className={linkClass(l.href)}>{l.label}</Link>
+              ))}
               <button
                 onClick={handleLogout}
-                className="px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600"
+                className="mt-1 px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-md hover:bg-brand-600"
               >
                 Logout
               </button>

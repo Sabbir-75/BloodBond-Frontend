@@ -28,6 +28,16 @@ export function AuthProvider({ children }) {
     setUser(userData);
   }
 
+  // User-er info bodle gele (nam / chobi): localStorage + state - duitai update.
+  // Notun chobi / nam sathe sathe navbar-e dekhabe, abar login kora lagbe na.
+  function updateUser(newData) {
+    setUser((prev) => {
+      const merged = { ...(prev || {}), ...newData };
+      localStorage.setItem('bloodbond_user', JSON.stringify(merged));
+      return merged;
+    });
+  }
+
   // Logout: remove token + user, go back to guest state.
   function logout() {
     clearToken();
@@ -35,13 +45,13 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, ready, login, logout }}>
+    <AuthContext.Provider value={{ user, ready, login, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-// Easy access in any page: const { user, login, logout } = useAuth();
+// Easy access in any page: const { user, login, logout, updateUser } = useAuth();
 export function useAuth() {
   return useContext(AuthContext);
 }
