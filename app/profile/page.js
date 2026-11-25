@@ -237,7 +237,7 @@ export default function ProfilePage() {
               <p className="text-lg font-bold text-gray-900 break-words">
                 {common.fullName}
                 {isDonor && profile && (
-                  <span className="ml-2 inline-block align-middle text-sm font-bold px-2 py-0.5 rounded-full bg-red-50 text-brand-700 border border-red-200">
+                  <span className="ml-2 inline-block align-middle text-sm font-bold px-2 py-0.5 rounded-full bg-brand-600 text-white border border-red-200">
                     {profile.BloodGroup}
                   </span>
                 )}

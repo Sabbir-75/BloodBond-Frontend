@@ -231,7 +231,7 @@ export default function Navbar() {
                   <Avatar photo={user.profilePhoto} name={user.fullName} className="w-10 h-10 text-sm" />
                 </button>
                 {openMenu === 'avatar' && (
-                  <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50">
+                  <div className="absolute right-0 top-full mt-1 w-64 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50">
                     {/* Header: boro avatar + nam + role */}
                     <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-100">
                       <Avatar photo={user.profilePhoto} name={user.fullName} className="w-12 h-12 text-lg" />

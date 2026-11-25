@@ -12,7 +12,7 @@ export default function Logo({ light = false, showTagline = true }) {
       <span className={light ? 'bg-white rounded-lg p-1 flex items-center justify-center' : 'flex items-center justify-center'}>
         <Image src={LOGO_ICON_DATA_URI} alt="BloodBond logo" width={36} height={36} priority unoptimized />
       </span>
-      <span className="leading-none">
+       <span className="leading-none">
         <span className={'text-xl font-bold ' + (light ? 'text-white' : 'text-gray-900')}>
           Blood<span className="text-brand-500">Bond</span>
         </span>

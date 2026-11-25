@@ -91,7 +91,7 @@ export default function Footer() {
           <p className="font-bold text-white">Contact Us</p>
           <p className="mt-3 text-sm text-red-100">BloodBond</p>
           <p className="text-sm text-red-100">Blood Donation Management System</p>
-          <p className="text-sm text-red-100">CSE 2291, Northern University Bangladesh</p>
+          <p className="text-sm text-red-100">CSE, Northern University Bangladesh</p>
           <p className="text-sm text-red-100">Dhaka, Bangladesh</p>
           <p className="mt-3 text-sm text-red-100">
             Emergency? Go to Available Donors, find your blood group,
